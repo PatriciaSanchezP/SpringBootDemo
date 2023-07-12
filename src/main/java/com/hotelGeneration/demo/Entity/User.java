@@ -1,4 +1,16 @@
-package com.hotelGeneration.Entity;
+package com.hotelGeneration.demo.Entity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+//Anotación para decirle a Java que esta es una clase mapeada a una tabla de una BD
+
+@Entity
+@Table (name = "usuario") //me dice a qué table de la BD voy a conectar esta clase POJO 
 
 public class User {
 	
@@ -8,7 +20,15 @@ public class User {
 	 */
 	
 	//Propiedades o atributos
-	private static Long id = 0L; //clase wrapper
+	//private static Long id = 0L; id antes de la coneción a la BD //clase wrapper
+	
+	@Id //Decimos que la PK de nuetsra tabla es el atributo Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//Para generar valores automáticamente de forma autoincremental, en el campo id que es nuestra PK de la BD
+	
+	@Column(name="id", unique=true, nullable=false)
+	
+	private Long id; //id después de la conexión
 	private String nombre;
 	private String apellido;
 	private String email;
@@ -19,16 +39,23 @@ public class User {
 	 * 
 	 */
 
+//Modificamos el constructor para agregar el id como parámetro, ya que ahora sí pertenece al objeto y se tiene que construir con el
 	
 	//Constructor
 	
-	public User(String nombre, String apellido, String email, String telefono) {
-		id++; //contador para emular el autoincrementable de los usuarios
+	public User(Long id, String nombre, String apellido, String email, String telefono) {
+		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.email = email;
 		this.telefono = telefono;
 	}
+	
+	
+	//Construcctor vacío
+	public User() {
+		
+	}//Constructor vacío
 
 
 	
